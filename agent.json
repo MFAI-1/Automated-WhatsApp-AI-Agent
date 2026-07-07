@@ -1,0 +1,244 @@
+## workflow.json
+
+```json
+{
+  "name": "WhatsApp AI Agent",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "b2af095c-8733-49eb-a4d2-3c61e055e6d8",
+      "name": "WhatsApp Trigger",
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [240, 340]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body }}",
+              "operation": "contains",
+              "value2": "image"
+            }
+          ]
+        }
+      },
+      "id": "a230509d-7802-4a9b-a4f5-98a2a27293db",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [520, 460]
+    },
+    {
+      "parameters": {
+        "jsCode": "return { text: $json.body };"
+      },
+      "id": "82800e53-9228-44f9-a172-819714864236",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [780, 320]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "to": "={{ $json.from }}",
+        "messageType": "text",
+        "text": "={{ $json.response }}"
+      },
+      "id": "2341a679-b10b-45b3-a28a-8e5aafc45f9e",
+      "name": "WhatsApp Business Cloud1",
+      "type": "n8n-nodes-base.whatsAppBusinessCloud",
+      "typeVersion": 1,
+      "position": [1870, 550]
+    },
+    {
+      "parameters": {
+        "agentName": "AI Assistant",
+        "prompt": "You are a helpful assistant for a WhatsApp bot. Use the provided tools to answer the user.",
+        "model": "gpt-4",
+        "maxIterations": 5
+      },
+      "id": "f3532e4e-8870-4a03-8516-e2d68ad69225",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1,
+      "position": [1120, 460]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4"
+      },
+      "id": "767cd8d4-6c68-4f34-858c-0b0cf87eaf04",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [1120, 700]
+    },
+    {
+      "parameters": {},
+      "id": "3c5515c0-30be-4396-b968-7b15b27a5714",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memorySimple",
+      "typeVersion": 1,
+      "position": [1120, 780]
+    },
+    {
+      "parameters": {
+        "operation": "analyzeImage",
+        "image": "={{ $json.imageUrl }}"
+      },
+      "id": "43fa56e5-8341-4015-a1cd-4e398afbc6d6",
+      "name": "OpenAI1",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [780, 700]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.url }}"
+      },
+      "id": "bdc33c7e-6449-4e1f-a3de-bb0e746367cd",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [660, 600]
+    },
+    {
+      "parameters": {
+        "operation": "generate",
+        "text": "={{ $json.response }}"
+      },
+      "id": "928378fd-e6cb-455b-a384-5316193366ed",
+      "name": "OpenAI2",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [1480, 460]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.needsAudio }}",
+              "operation": "equal",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "a9a61eeb-2337-48a0-b82c-a7bb670510b8",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1350, 460]
+    }
+  ],
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "OpenAI2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "WhatsApp Business Cloud1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI2": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Business Cloud1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
