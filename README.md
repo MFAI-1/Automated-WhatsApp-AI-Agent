@@ -1,4 +1,7 @@
 # 🤖 WhatsApp AI Agent - n8n Workflow
+Transform your business communication instantly. This AI-powered WhatsApp agent automates customer support, filters leads, and provides 24/7 intelligent responses, reducing your operational overhead while significantly increasing your response speed and customer satisfaction
+
+<img width="1679" height="821" alt="Whatsapp Agent" src="https://github.com/user-attachments/assets/ea017a84-40a7-4e3a-9bfe-f4bfdd1a99a9" />
 
 [![n8n](https://img.shields.io/badge/n8n-Advanced_Workflow-blueviolet)](https://n8n.io)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT4-green)](https://openai.com)
@@ -7,7 +10,6 @@
 
 > **Transform your WhatsApp Business into an intelligent, AI-powered conversational agent.** Automate customer interactions, handle queries, and provide instant support 24/7.
 
-<img width="1679" height="821" alt="Whatsapp Agent" src="https://github.com/user-attachments/assets/ea017a84-40a7-4e3a-9bfe-f4bfdd1a99a9" />
 
 ---
 
@@ -127,5 +129,5 @@ productivity
 Portfolio Description
 This project showcases a fully functional, enterprise-ready AI agent built entirely within n8n. By integrating WhatsApp Business, OpenAI's GPT-4, and custom routing logic, the workflow demonstrates advanced skills in event-driven architecture, media processing, and stateful conversational AI, proving expertise in modern "No-Code" automation.
 
-Client Pitch
+
 Stop losing leads to slow response times. This AI agent automates your entire WhatsApp support and sales pipeline, instantly answering queries, analyzing images, and engaging customers in natural dialogue—turning your phone number into your most powerful business asset, running 24/7 without additional headcount.
